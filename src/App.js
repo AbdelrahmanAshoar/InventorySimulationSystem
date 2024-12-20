@@ -249,41 +249,6 @@ const App = () => {
     }
     worksheet["!cols"] = cellsWidth;
 
-    // Add styling
-    const range = XLSX.utils.decode_range(worksheet["!ref"]);
-    for (let R = range.s.r; R <= range.e.r; ++R) {
-      for (let C = range.s.c; C <= range.e.c; ++C) {
-        const cell = worksheet[XLSX.utils.encode_cell({ r: R, c: C })];
-        if (cell && cell.v !== undefined) {
-          // Apply header style
-          if (R === 0) {
-            cell.s = {
-              font: { bold: true, color: { rgb: "FFFFFF" } },
-              fill: { fgColor: { rgb: "4F81BD" } },
-              alignment: { horizontal: "center", vertical: "center" },
-              border: {
-                top: { style: "thin", color: { rgb: "000000" } },
-                right: { style: "thin", color: { rgb: "000000" } },
-                bottom: { style: "thin", color: { rgb: "000000" } },
-                left: { style: "thin", color: { rgb: "000000" } },
-              },
-            };
-          } else {
-            // Apply cell style
-            cell.s = {
-              font: { color: { rgb: "000000" } },
-              alignment: { horizontal: "center", vertical: "center" },
-              border: {
-                top: { style: "thin", color: { rgb: "ff0000" } },
-                right: { style: "thin", color: { rgb: "ff0000" } },
-                bottom: { style: "thin", color: { rgb: "ff0000" } },
-                left: { style: "thin", color: { rgb: "ff0000" } },
-              },
-            };
-          }
-        }
-      }
-    }
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
     const excelBuffer = XLSX.write(workbook, {
@@ -297,7 +262,6 @@ const App = () => {
     saveAs(dataBlob, "data.xlsx");
   };
 
-  console.log(simulatedData);
 
   return (
     <div className={"app"}>
